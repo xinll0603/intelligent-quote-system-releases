@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "version": "0.2.3",
+  "channel": "stable",
+  "published_at": "2026-09-28T06:11:41.481Z",
+  "notes": "修复 DeepSeek 原生页面切换后遮挡其他页面；恢复左下角固定设置入口，并将飞书、合规与应用更新统一纳入设置中心。",
+  "installer": {
+    "name": "IntelligentQuoteSystem-Update-0.2.3.exe",
+    "size": 109498668,
+    "sha256": "643757A86279439A2AE986763BC1A83AF7F63BDFD8ACF6A306D7222F7E431CD1",
+    "signed": false
+  }
+}

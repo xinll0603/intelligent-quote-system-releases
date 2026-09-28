@@ -1,0 +1,90 @@
+name: Assemble and publish release asset
+
+on:
+  workflow_dispatch:
+    inputs:
+      staging_ref:
+        description: Temporary branch containing staging/parts and update-manifest.json
+        required: true
+        type: string
+      release_tag:
+        description: Existing GitHub Release tag
+        required: true
+        type: string
+      asset_name:
+        description: Final executable asset name
+        required: true
+        type: string
+      expected_size:
+        description: Expected executable size in bytes
+        required: true
+        type: string
+      expected_sha256:
+        description: Expected uppercase or lowercase SHA-256
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-asset-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  assemble-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate workflow inputs
+        shell: bash
+        env:
+          STAGING_REF: ${{ inputs.staging_ref }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          ASSET_NAME: ${{ inputs.asset_name }}
+          EXPECTED_SIZE: ${{ inputs.expected_size }}
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+        run: |
+          set -euo pipefail
+          [[ "$STAGING_REF" =~ ^upload/[A-Za-z0-9._-]+$ ]]
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$ASSET_NAME" =~ ^[A-Za-z0-9._-]+\.exe$ ]]
+          [[ "$EXPECTED_SIZE" =~ ^[1-9][0-9]*$ ]]
+          [[ "$EXPECTED_SHA256" =~ ^[A-Fa-f0-9]{64}$ ]]
+
+      - name: Check out the temporary staging branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.staging_ref }}
+          fetch-depth: 1
+
+      - name: Assemble and verify asset
+        shell: bash
+        env:
+          ASSET_NAME: ${{ inputs.asset_name }}
+          EXPECTED_SIZE: ${{ inputs.expected_size }}
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+        run: |
+          set -euo pipefail
+          mapfile -t parts < <(find staging/parts -maxdepth 1 -type f -name '*.part' | sort)
+          (( ${#parts[@]} > 0 ))
+          cat "${parts[@]}" > "$ASSET_NAME"
+          actual_size="$(stat -c '%s' "$ASSET_NAME")"
+          actual_sha256="$(sha256sum "$ASSET_NAME" | awk '{print toupper($1)}')"
+          expected_sha256="$(printf '%s' "$EXPECTED_SHA256" | tr '[:lower:]' '[:upper:]')"
+          test "$actual_size" = "$EXPECTED_SIZE"
+          test "$actual_sha256" = "$expected_sha256"
+          test -f staging/update-manifest.json
+          test "$(jq -r '.installer.name' staging/update-manifest.json)" = "$ASSET_NAME"
+          test "$(jq -r '.installer.size' staging/update-manifest.json)" = "$EXPECTED_SIZE"
+          test "$(jq -r '.installer.sha256 | ascii_upcase' staging/update-manifest.json)" = "$expected_sha256"
+
+      - name: Upload verified assets to the existing release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          ASSET_NAME: ${{ inputs.asset_name }}
+        run: |
+          set -euo pipefail
+          gh release upload "$RELEASE_TAG" "$ASSET_NAME" staging/update-manifest.json --clobber
+

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "version": "0.2.5",
   "channel": "stable",
-  "published_at": "2026-09-29T08:42:03.229Z",
+  "published_at": "2026-09-29T08:58:09.628Z",
   "notes": "更新发现改为独立 CDN 清单、Raw GitHub 与 GitHub Release 多通道；更新包会同步替换桌面更新器本身，后续更新无需重装完整客户端。",
   "updater": {
     "bundled": true,
@@ -14,6 +14,6 @@
     "size": 3533018,
     "sha256": "788B34795F4AEBF3E9C715EFF14BB8FD0F7B26249E17AA503415611DD63D43EC",
     "signed": false,
-    "url": "https://cdn.jsdelivr.net/gh/xinll0603/intelligent-quote-system-releases@v0.2.5/channel/stable/IntelligentQuoteSystem-Bootstrap-0.2.5.exe"
+    "url": "https://cdn.jsdelivr.net/gh/xinll0603/intelligent-quote-system-releases@e8a32040852bb3a58368c1a2d107c89e2b85dea2/channel/stable/IntelligentQuoteSystem-Bootstrap-0.2.5.bin"
   }
 }

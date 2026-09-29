@@ -2,7 +2,7 @@
   "schema_version": 1,
   "version": "0.2.5",
   "channel": "stable",
-  "published_at": "2026-09-29T09:05:13.481Z",
+  "published_at": "2026-09-29T09:21:52.639Z",
   "notes": "更新发现改为独立 CDN 清单、Raw GitHub 与 GitHub Release 多通道；更新包会同步替换桌面更新器本身，后续更新无需重装完整客户端。",
   "updater": {
     "bundled": true,
@@ -11,8 +11,8 @@
   },
   "installer": {
     "name": "IntelligentQuoteSystem-Bootstrap-0.2.5.exe",
-    "size": 3532931,
-    "sha256": "8544AF78148BF2F31ACFC64A002C29D15A5033234E419BF595FE0FA0FEB1B5FE",
+    "size": 3532935,
+    "sha256": "99A6F79CAE8A8BC991D73121CBCCD9D5AE34EC8A44AA7F8B066CDBA745FA2D60",
     "signed": false,
     "url": "https://github.com/xinll0603/intelligent-quote-system-releases/releases/download/v0.2.5/IntelligentQuoteSystem-Bootstrap-0.2.5.exe"
   }

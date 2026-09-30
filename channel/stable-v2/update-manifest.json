@@ -1,19 +1,38 @@
 {
   "schema_version": 1,
-  "version": "0.2.6",
+  "version": "0.2.7",
   "channel": "stable",
-  "published_at": "2026-09-29T10:18:06.779Z",
-  "notes": "更新发现改为独立 CDN 清单、Raw GitHub 与 GitHub Release 多通道；更新包会同步替换桌面/Web 资源、更新器和后端运行时，保证各客户端版本一致。",
+  "cumulative": true,
+  "minimum_supported_version": "0.2.0",
+  "included_from_versions": [
+    "0.2.0",
+    "0.2.1",
+    "0.2.2",
+    "0.2.3",
+    "0.2.4",
+    "0.2.5",
+    "0.2.6"
+  ],
+  "target_schema_version": 41,
+  "runtime_components": [
+    "desktop_app",
+    "web_ui",
+    "updater",
+    "backend",
+    "knowledge_seed",
+    "source_plugins"
+  ],
+  "published_at": "2026-09-30T02:42:24.615Z",
+  "notes": "累计完整升级包：自动识别 0.2.0–0.2.6，并一次替换桌面/Web、更新器、后端、权威知识种子和真实公开来源插件。",
   "updater": {
     "bundled": true,
-    "version": "0.2.6",
+    "version": "0.2.7",
     "strategy": "bootstrap-replaces-app-and-backend-runtime"
   },
   "installer": {
-    "name": "IntelligentQuoteSystem-Bootstrap-0.2.6.exe",
-    "size": 109498048,
-    "sha256": "DC4E02F7CD11E52036D315D63549086FAB659B8E4240E89188DD007B56496379",
-    "signed": false,
-    "url": "https://github.com/xinll0603/intelligent-quote-system-releases/releases/download/v0.2.6/IntelligentQuoteSystem-Bootstrap-0.2.6.exe"
+    "name": "IntelligentQuoteSystem-Setup-0.2.7.exe",
+    "size": 109523120,
+    "sha256": "E458E118FFAB72C34AE0573E501E949C14A17E38C982E628DEDC9E02DBD0BACE",
+    "signed": false
   }
 }
